@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Geo_Quiz</string>
+    <string name="question">تهران پایتخت ایران است</string>
+    <string name="str_true">درست</string>
+    <string name="str_false">نادرست</string>
+    <string name="true_message">  پاسخ شما درست می باشد </string>
+    <string name="false_message">  پاسخ شما نادرست می باشد </string>
+    <string name="question_australia">استرالیا بزرگ ترین قاره جهان است</string>
+    <string name="question_oceans">اقیانوس ارام بزرگ ترین اقیانوس جهان است</string>
+    <string name="question_mideast">همه ی کشور های خاورمیانه عرب زبان هستند</string>
+    <string name="question_africa">مصر در قاره افریقا قرار دارد</string>
+    <string name="question_americas">کشور امریکا پرجمعیت ترین کشور دنیا است</string>
+    <string name="question_asia"> قاره ی  اسیا در نیم کره جنوبی جهان واقع شده است</string>
+    <string name="question_iran">تهران پایتخت ایران است</string>
+    <string name="question_german">کشور آلمان در قاره ی اروپا واقع شده است</string>
+    <string name="question_france">کشور فرانسه در قاره ی آسیا واقع شده است</string>
+    <string name="question_America">قاره ی آمریکا بزرگترین قاره ی جهان است</string>
+    <string name="question_lan">کشور ایران فارسی زبان هست</string>
+    <string name="question_iraq">رود فرات در عراق وجود دارد</string>
+    <string name="score">امتیاز</string>
+    <string name="cheat_btn">تقلب</string>
+    <string name="show_cheat">نمایش تقلب</string>
+    <string name="cheat_question">آیا برای تقلب مطمئنید؟</string>
+    <string name="judgment">تقلب کار بدی است</string>
+    <string name="btn_setting">"تنظیمات   "</string>
+    <string name="change_question_size">تغییر سایز سوال ها</string>
+    <string name="small_size">کوچک</string>
+    <string name="medium_size">متوسط</string>
+    <string name="large_size">بزرگ</string>
+    <string name="change_background">تغییر رنگ پشت زمینه</string>
+    <string name="red">قرمز روشن</string>
+    <string name="blue">آبی روشن</string>
+    <string name="green">سبز روشن</string>
+    <string name="white">سفید</string>
+    <string name="svaebutton">ذخیره ی تغییرات</string>
+    <string name="discardbutton">بازگشت</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="btn_back_cheat">برگشت</string>
+
+</resources>
