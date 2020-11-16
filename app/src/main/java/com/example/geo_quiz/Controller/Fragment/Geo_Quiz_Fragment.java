@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.geo_quiz.Controller.Activity.Cheat_Activity;
-import com.example.geo_quiz.Controller.Activity.Geo_Quiz_Activity;
 import com.example.geo_quiz.Controller.Activity.Setting_Activity;
 import com.example.geo_quiz.Model.Question;
 import com.example.geo_quiz.R;
@@ -47,8 +46,9 @@ public class Geo_Quiz_Fragment extends Fragment {
     public static final String ARG_COLOR_BACK = "ARG_COLOR_BACK";
     public static final String ARG_SIZE_TXT_QUESTION = "ARG_SIZE_TXT_QUESTION";
     public static final String ARG_REQ_CODE = "ARG_REQ_CODE";
-    public static final String SIZEOFTEXTQUESTION = "size_text";
-    public static final String COLOROFBACKGROUND = "color_back";
+    public static final String SIZE_OF_TEXT_QUESTION = "size_text";
+    public static final String COLOR_OF_BACKGROUND = "color_back";
+
     private Button btn_true;
     private Button btn_false;
     private ImageButton btn_next;
@@ -66,11 +66,11 @@ public class Geo_Quiz_Fragment extends Fragment {
     private LinearLayout linearLayoutTxtQuestion;
     private FrameLayout frameLayoutTxtQuestion;
     private String str;
-    private int mcurrentindex;
-    private boolean mIscheater;
-    private int indexcheater;
+    private int mCurrentIndex;
+    private boolean mIsCheater;
+    private int IndexCheater;
     private int score = 0;
-    private String scorestr;
+    private String scoreStr;
     private  UUID QuestionId;
     private Question mQuestion;
     QuestionRepository questionRepository = QuestionRepository.getInstance();
@@ -127,23 +127,23 @@ public class Geo_Quiz_Fragment extends Fragment {
 
         QuestionId = (UUID) getArguments().getSerializable(ARG_QUESTION_ID);
         mQuestion = questionRepository.getQuestion(QuestionId);
-        mcurrentindex = questionRepository.getPosition(QuestionId);
+        mCurrentIndex = questionRepository.getPosition(QuestionId);
 
         RequestCodeSettingActivity = getArguments().getInt(ARG_REQ_CODE);
 
         if( QuestionId == null && RequestCodeSettingActivity  == 2){
             colorOfBackGround = getArguments().getInt(ARG_COLOR_BACK);
             sizeOfTextQuestion = getArguments().getInt(ARG_SIZE_TXT_QUESTION);
-            mcurrentindex = getArguments().getInt(ARG_CURRENT_INDEX);
+            mCurrentIndex = getArguments().getInt(ARG_CURRENT_INDEX);
            score = getArguments().getInt(ARG_SCORE);
-           mQuestion = questionRepository.getQuestion(mcurrentindex);
+           mQuestion = questionRepository.getQuestion(mCurrentIndex);
         }else if(QuestionId == null){
-            mIscheater = getArguments().getBoolean(ARG_IS_CHEAT);
-            indexcheater = getArguments().getInt(ARG_CURRENT_INDEX);
-            mcurrentindex = getArguments().getInt(ARG_CURRENT_INDEX);
+            mIsCheater = getArguments().getBoolean(ARG_IS_CHEAT);
+            IndexCheater = getArguments().getInt(ARG_CURRENT_INDEX);
+            mCurrentIndex = getArguments().getInt(ARG_CURRENT_INDEX);
             score = getArguments().getInt(ARG_SCORE);
             isAnswer = getArguments().getBooleanArray(ARG_IS_ANSWER);
-            mQuestion = questionRepository.getQuestion(mcurrentindex);
+            mQuestion = questionRepository.getQuestion(mCurrentIndex);
             colorOfBackGround = getArguments().getInt(ARG_COLOR_BACK);
             sizeOfTextQuestion = getArguments().getInt(ARG_SIZE_TXT_QUESTION);
         }
@@ -151,13 +151,13 @@ public class Geo_Quiz_Fragment extends Fragment {
 
 
         if (savedInstanceState != null) {
-            mcurrentindex = savedInstanceState.getInt(CURRENT_INDEX, 0);
+            mCurrentIndex = savedInstanceState.getInt(CURRENT_INDEX, 0);
             score = savedInstanceState.getInt(SCORE, 0);
             isAnswer = savedInstanceState.getBooleanArray(IS_ANSWER);
-            indexcheater = savedInstanceState.getInt(INDEX_CHEATER, 10);
-            mIscheater = savedInstanceState.getBoolean(IS_CHEATER, false);
-             sizeOfTextQuestion = savedInstanceState.getInt(SIZEOFTEXTQUESTION, 16);
-            colorOfBackGround = savedInstanceState.getInt(COLOROFBACKGROUND, 0);
+            IndexCheater = savedInstanceState.getInt(INDEX_CHEATER, 10);
+            mIsCheater = savedInstanceState.getBoolean(IS_CHEATER, false);
+             sizeOfTextQuestion = savedInstanceState.getInt(SIZE_OF_TEXT_QUESTION, 16);
+            colorOfBackGround = savedInstanceState.getInt(COLOR_OF_BACKGROUND, 0);
 
         }
     }
@@ -179,11 +179,11 @@ public class Geo_Quiz_Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setSizeQuestiionText();
+        setSizeQuestionText();
         setColorofbackground();
     }
 
-    private void setSizeQuestiionText() {
+    private void setSizeQuestionText() {
         if (sizeOfTextQuestion == 14) {
             TextViewQuestion.setTextSize(14);
         }
@@ -220,13 +220,13 @@ public class Geo_Quiz_Fragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(CURRENT_INDEX, mcurrentindex);
+        outState.putInt(CURRENT_INDEX, mCurrentIndex);
         outState.putInt(SCORE, score);
         outState.putBooleanArray(IS_ANSWER, isAnswer);
-       outState.putBoolean(IS_CHEATER, mIscheater);
-       outState.putInt(INDEX_CHEATER, indexcheater);
-       outState.putInt(SIZEOFTEXTQUESTION, sizeOfTextQuestion);
-        outState.putInt(COLOROFBACKGROUND, colorOfBackGround);
+       outState.putBoolean(IS_CHEATER, mIsCheater);
+       outState.putInt(INDEX_CHEATER, IndexCheater);
+       outState.putInt(SIZE_OF_TEXT_QUESTION, sizeOfTextQuestion);
+        outState.putInt(COLOR_OF_BACKGROUND, colorOfBackGround);
     }
     private void findViews(View view ) {
         btn_true = view.findViewById(R.id.btn_true);
@@ -268,7 +268,7 @@ public class Geo_Quiz_Fragment extends Fragment {
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mcurrentindex = (mcurrentindex + 1) % size;
+                mCurrentIndex = (mCurrentIndex + 1) % size;
 
                setquestion(view);
             }
@@ -277,7 +277,7 @@ public class Geo_Quiz_Fragment extends Fragment {
         btn_pre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mcurrentindex = (mcurrentindex - 1 + size) % size;
+                mCurrentIndex = (mCurrentIndex - 1 + size) % size;
               setquestion(view);
 
             }
@@ -287,7 +287,7 @@ public class Geo_Quiz_Fragment extends Fragment {
         btn_doubleNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mcurrentindex = size;
+                mCurrentIndex = size;
                setquestion(view);
             }
         });
@@ -295,7 +295,7 @@ public class Geo_Quiz_Fragment extends Fragment {
         btn_doublePre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mcurrentindex = 0;
+                mCurrentIndex = 0;
                 setquestion(view);
             }
         });
@@ -321,7 +321,7 @@ public class Geo_Quiz_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-               Intent intent = Setting_Activity.newIntent(getActivity() , mcurrentindex , score , RequestCodeSettingActivity , sizeOfTextQuestion , colorOfBackGround );
+               Intent intent = Setting_Activity.newIntent(getActivity() , mCurrentIndex, score , RequestCodeSettingActivity , sizeOfTextQuestion , colorOfBackGround );
                startActivity(intent);
             }
         });
@@ -329,7 +329,7 @@ public class Geo_Quiz_Fragment extends Fragment {
       btn_cheat.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-              Intent intent = Cheat_Activity.newIntent(getActivity(), questionRepository.getQuestion(mcurrentindex).ismIsAnswerTrue() , mcurrentindex , isAnswer , sizeOfTextQuestion , colorOfBackGround , score) ;
+              Intent intent = Cheat_Activity.newIntent(getActivity(), questionRepository.getQuestion(mCurrentIndex).ismIsAnswerTrue() , mCurrentIndex, isAnswer , sizeOfTextQuestion , colorOfBackGround , score) ;
               startActivity(intent);
           }
       });
@@ -377,7 +377,7 @@ public class Geo_Quiz_Fragment extends Fragment {
         final TextView textViewcheat = new TextView(getActivity());
         final LinearLayout layoutcheat = new LinearLayout(getActivity());
 
-        if (mIscheater && indexcheater == mcurrentindex) {
+        if (mIsCheater && IndexCheater == mCurrentIndex) {
 
             textViewcheat.setText(R.string.judgment);
             toastcheat.setDuration(Toast.LENGTH_SHORT);
@@ -385,11 +385,11 @@ public class Geo_Quiz_Fragment extends Fragment {
             layoutcheat.addView(textViewcheat);
             toastcheat.setView(layoutcheat);
             toastcheat.show();
-            isAnswer[mcurrentindex] = true;
+            isAnswer[mCurrentIndex] = true;
             disableButton();
             setVisibility(view);
 
-            if (questionRepository.getQuestion(mcurrentindex).ismIsAnswerTrue() == userpressed) {
+            if (questionRepository.getQuestion(mCurrentIndex).ismIsAnswerTrue() == userpressed) {
                 score++;
                 makestr();
             } else {
@@ -398,7 +398,7 @@ public class Geo_Quiz_Fragment extends Fragment {
 
 
         } else {
-            if (questionRepository.getQuestion(mcurrentindex).ismIsAnswerTrue() == userpressed) {
+            if (questionRepository.getQuestion(mCurrentIndex).ismIsAnswerTrue() == userpressed) {
                 score++;
                 makestr();
                 textViewtrue.setText(R.string.true_message);
@@ -410,10 +410,10 @@ public class Geo_Quiz_Fragment extends Fragment {
                 layouttrue.addView(imageViewtrue);
                 toasttrue.setView(layouttrue);
                 toasttrue.show();
-                isAnswer[mcurrentindex] = true;
+                isAnswer[mCurrentIndex] = true;
                 disableButton();
                 setVisibility(view);
-            } else if (questionRepository.getQuestion(mcurrentindex).ismIsAnswerTrue() != userpressed) {
+            } else if (questionRepository.getQuestion(mCurrentIndex).ismIsAnswerTrue() != userpressed) {
                 makestr();
                 textViewfalse.setText(R.string.false_message);
                 textViewfalse.setTextColor(Color.RED);
@@ -425,7 +425,7 @@ public class Geo_Quiz_Fragment extends Fragment {
                 toastfalse.setView(layoutfalse);
                 toastfalse.setGravity(Gravity.CENTER, 0, -400);
                 toastfalse.show();
-                isAnswer[mcurrentindex] = true;
+                isAnswer[mCurrentIndex] = true;
                 disableButton();
                 setVisibility(view);
             }
@@ -439,14 +439,14 @@ public class Geo_Quiz_Fragment extends Fragment {
     }
 
     private void setquestion(View view) {
-        if (isAnswer[mcurrentindex] == false) {
+        if (isAnswer[mCurrentIndex] == false) {
             EnableButton();
-        } else if (isAnswer[mcurrentindex] == true) {
+        } else if (isAnswer[mCurrentIndex] == true) {
             disableButton();
         }
 
         btnReset.setVisibility(view.findViewById(R.id.btn_reset).INVISIBLE);
-        int questionId = questionRepository.getQuestion(mcurrentindex).getmQuestiontextResId();
+        int questionId = questionRepository.getQuestion(mCurrentIndex).getmQuestiontextResId();
         TextViewQuestion.setText(questionId);
 
 
@@ -456,7 +456,7 @@ public class Geo_Quiz_Fragment extends Fragment {
 
 
     private void makestr() {
-        scorestr = String.valueOf(score);
-        str = "امتیاز: " + scorestr;
+        scoreStr = String.valueOf(score);
+        str = "امتیاز: " + scoreStr;
     }
 }
